@@ -11,7 +11,7 @@ struct List{
 
 };
 //create list
-List *createList(List *ls);
+List *createList();
 //create addTobegin
 void createToBegin(List *ls,int dataNew);
 //create display
@@ -22,27 +22,98 @@ void DeleteBegin(List *ls);
 void endList(List *ls, int dataNew);
 //delete end
 void deleteEnd(List *ls);
+//delete end other method        
+void otherDeleteEnd(List *ls);                           
+int p=0;   
 int main(){
+    int choice,number;
+    List *ls;
+    ls=createList();
     
+    while (1)
+    {
+        cout<<"\t\t=========================\n";
+        cout<<"\t\t+Welcome to link list-_-+\n";
+        cout<<"\t\t=========================\n\n";
+        cout<<"1.Input data begin of list.\n\n";
+        cout<<"2.Display data in list.\n\n";
+        cout<<"3.Delete data Begin of list.\n\n";
+        cout<<"4.Input data end of list.\n\n";
+        cout<<"5.Delete data end of list.\n\n";
+        cout<<"6.Exit the program.\n\n";
+        cout<<"Choice:";
+        cin>>choice;
+        if (choice==1)
+        {
+            system("clear||cls");
+            cout<<"Input number:";
+            cin>>number;
+            createToBegin(ls,number);
+        }else if (choice==2)
+        {
+            displayAllData(ls);            
+        }else if (choice==3)
+        {
+            DeleteBegin(ls);
+        }else if (choice==4)
+        {
+            system("clear||cls");
+
+            cout<<"Input number:";
+            cin>>number;
+            endList(ls,number);
+        }else if (choice==5)
+        {
+            // cout<<"1.method\n\n";
+            otherDeleteEnd(ls);
+            // cout<<"2.Other method\n\n";
+            // deleteEnd(ls);
+        }else if (choice==6)
+        {
+            cout<<"Bye Bye!\n\n";
+            break;
+        }
+    }
 }
 void deleteEnd(List *ls){
-    Element *tmp,*c;
-    if (ls->n==0)
+   Element *tmp1,*tmp;
+    if (ls->head ==NULL)
     {
-        ls->head=NULL;
-        ls->tail=NULL;
-    }
-    tmp = ls->tail;
-    c->next=NULL;
-    ls->tail->next =c;
-    ls->tail=c;
-    delete tmp;
-    ls->n--;
+        cout<<"You cant delete more.\n";
+    }   
+    else{
+        if (ls->head->next==NULL)
+        {
+            cout<<"Successfull deleted.\n";
 
+            delete ls->head;
+            ls->head=NULL;
+            p=1;
+        }
+    else
+    {
+        cout<<"Successfull deleted.\n";
+        p=0;
+        tmp=ls->head;
+       while (tmp->next!=NULL)
+       {
+            tmp1=tmp;
+            tmp=tmp->next;           
+       }
+        
+
+       delete tmp1->next;
+       tmp1->next=NULL; 
+        
+
+   }
+    }
+   
 }
 void endList(List *ls, int dataNew){
     Element *e;
-    e= new Element;
+    e= new Element();
+    p=0;
     if (ls->n==0)
     {
         createToBegin(ls,dataNew);
@@ -53,39 +124,63 @@ void endList(List *ls, int dataNew){
         e->data=dataNew;
         e->next =NULL;
         ls->tail->next=e;
-        ls->tail=e;
+        ls->tail=e;//ls->tail=ls->tail->next
         ls->n++;
     }
     
 }
+
 void DeleteBegin(List *ls){
     Element *tmp;
     //set next become head
-    tmp=ls->head;
-    ls->head = ls->head->next;
-    //delete head
-    delete tmp;
-    //update tail
-    if (ls->n==0)
+    if (ls->head==NULL)
     {
-        ls->tail=NULL;
+        p=1;
+        cout<<"You cant delete more.\n";
+    }else
+    {
+        tmp=ls->head;
+        ls->head = ls->head->next;
+        //delete head
+        delete tmp;
+        cout<<"Successfull deleted.\n";
+
+        //update tail
+        if (ls->n==0)
+        {
+            ls->tail=NULL;
+        }
+        if (ls->head ==NULL)
+        {
+            p=1;
+        }
+
+        ls->n--;//element minus 1
     }
-    ls->n--;//element minus 1
 }
 void displayAllData(List *ls){
     Element *tmp;
     tmp=ls->head;
-    while (tmp->next!=NULL)
+    
+    if (p==1)
     {
-        cout<<tmp->data<<" ";
-        tmp=tmp->next;
+        cout<<"No result!\n";
+    }
+    else{
+        while (tmp!=NULL)
+        {
+            cout<<tmp->data<<" ";
+            tmp=tmp->next;
+        
+        }
     }
     cout<<endl<<endl;
 
 }
 void createToBegin(List *ls,int dataNew){
     Element *e;
-    e=new Element;
+    e=new Element();
+    p=0;
     e->data=dataNew;
     e->next =ls->head;
     ls->head = e;
@@ -93,15 +188,47 @@ void createToBegin(List *ls,int dataNew){
     {
         ls->tail=e;//if null        
     }
-    ls->n++; //next element
+    ls->n=ls->n+1; //next element
 }
 
 
-List *createList(List *ls){
-    ls=new List;
+List *createList(){
+    List *ls;
+    ls=new List();
     
     ls->n=0;
     ls->head=NULL;
     ls->tail=NULL;
     return ls;
 }
+void otherDeleteEnd(List *ls){
+    Element *tmp;
+    if (ls->tail==NULL||ls->head==NULL)
+    {
+        p=1;
+        cout<<"Cant delete.\n";
+    }else
+    {
+        if (ls->n==1)
+        {
+            DeleteBegin(ls);
+        }else
+        {
+            tmp= ls->head;
+            for (int i = 1; i <ls->n-1; i++)
+            {
+                tmp=tmp->next;          
+            }
+            ls->tail=tmp;
+            tmp=tmp->next;
+            ls->tail->next=NULL;
+            cout<<"Successfull deleted.\n";
+            if (ls->tail==NULL)
+            {
+                p=1;
+            }
+            ls->n--;
+    }
+    }
+   
+}                    
