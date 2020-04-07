@@ -26,7 +26,7 @@ void deleteEnd(List *ls);
 void otherDeleteEnd(List *ls); 
 void deleteAll(List *ls);                          
 int p=0; 
-int f=1;  
+int f=0;  
 int main(){
     int choice,number;
     List *ls;
@@ -143,6 +143,7 @@ void DeleteBegin(List *ls){
     if (ls->head==NULL)
     {
         p=1;
+        f=0;
         cout<<"You cant delete more.\n";
     }else
     {
@@ -151,7 +152,6 @@ void DeleteBegin(List *ls){
         //delete head
         delete tmp;
         f=1;
-
         //update tail
         if (ls->n==0)
         {
@@ -249,7 +249,8 @@ void deleteAll(List *ls){
     DeleteBegin(ls);
   }
   }else{
-    cout<<"Cant delete";
+    f=0;
+    cout<<"Cant delete\n";
   }
   if(f==1){
     cout<<"successful delete\n";
