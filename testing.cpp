@@ -23,8 +23,10 @@ void endList(List *ls, int dataNew);
 //delete end
 void deleteEnd(List *ls);
 //delete end other method        
-void otherDeleteEnd(List *ls);                           
-int p=0;   
+void otherDeleteEnd(List *ls); 
+void deleteAll(List *ls);                          
+int p=0; 
+int f=1;  
 int main(){
     int choice,number;
     List *ls;
@@ -41,6 +43,7 @@ int main(){
         cout<<"4.Input data end of list.\n\n";
         cout<<"5.Delete data end of list.\n\n";
         cout<<"6.Exit the program.\n\n";
+        cout<<"7.Delete all data in list.\n";
         cout<<"Choice:";
         cin>>choice;
         if (choice==1)
@@ -68,7 +71,10 @@ int main(){
             otherDeleteEnd(ls);
             // cout<<"2.Other method\n\n";
             // deleteEnd(ls);
-        }else if (choice==6)
+        }else if(choice==7){
+          deleteAll(ls);
+        }
+        else if (choice==6)
         {
             cout<<"Bye Bye!\n\n";
             break;
@@ -114,6 +120,7 @@ void endList(List *ls, int dataNew){
     Element *e;
     e= new Element();
     p=0;
+    f=0;
     if (ls->n==0)
     {
         createToBegin(ls,dataNew);
@@ -143,7 +150,7 @@ void DeleteBegin(List *ls){
         ls->head = ls->head->next;
         //delete head
         delete tmp;
-        cout<<"Successfull deleted.\n";
+        f=1;
 
         //update tail
         if (ls->n==0)
@@ -181,6 +188,7 @@ void createToBegin(List *ls,int dataNew){
     Element *e;
     e=new Element();
     p=0;
+    f=0;
     e->data=dataNew;
     e->next =ls->head;
     ls->head = e;
@@ -232,3 +240,18 @@ void otherDeleteEnd(List *ls){
     }
    
 }                    
+void deleteAll(List *ls){
+  
+  if(ls->n>0){
+    
+  while(ls->n>0){
+    
+    DeleteBegin(ls);
+  }
+  }else{
+    cout<<"Cant delete";
+  }
+  if(f==1){
+    cout<<"successful delete\n";
+  }
+}
